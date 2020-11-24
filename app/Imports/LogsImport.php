@@ -57,11 +57,15 @@ class LogsImport implements ToModel, WithHeadingRow
         $finish = Carbon::parse($time_out);
 
         foreach ($employee_schedules as $key => $schedule) {
-            if($schedule->day === $day) {
+            
+
+            if($schedule->day == $day) {
                 $check_start = $start->between(Carbon::parse($date.' '.$schedule->from)->subMinute(), Carbon::parse($date.' '.$schedule->to)->addMinute());
-                $check_before_start = $start->between(Carbon::parse($date.' '.$schedule->from)->subMinute(20), Carbon::parse($date.' '.$schedule->from)->addMinute());
-                if($check_start === true || $check_before_start === true) {
-                    return $schedule->id;
+                $check_before_start = $start->between(Carbon::parse($date.' '.$schedule->from)->subMinute(20), Carbon::parse($date.' '.$schedule->to)->addMinute());
+                $employee_schedule_id = $schedule->id;
+                if($check_start === true || $check_before_start === true ) {
+                    return $employee_schedule_id;
+                
                 }
             }
         }
